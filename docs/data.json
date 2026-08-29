@@ -54,4 +54,357 @@
       "playlist_genre": "edm",
       "track_count": 4810,
       "avg_popularity": 30.8,
-      "avg
+      "avg_danceability": 0.657,
+      "avg_energy": 0.81,
+      "avg_valence": 0.395,
+      "avg_acousticness": 0.077,
+      "avg_tempo": 126.3
+    }
+  ],
+  "energy_quartile_popularity": [
+    {
+      "energy_quartile": 1,
+      "energy_floor": 0.0,
+      "energy_ceiling": 0.58,
+      "track_count": 6668,
+      "avg_popularity": 42.1
+    },
+    {
+      "energy_quartile": 2,
+      "energy_floor": 0.58,
+      "energy_ceiling": 0.722,
+      "track_count": 6668,
+      "avg_popularity": 41.4
+    },
+    {
+      "energy_quartile": 3,
+      "energy_floor": 0.722,
+      "energy_ceiling": 0.843,
+      "track_count": 6668,
+      "avg_popularity": 39.7
+    },
+    {
+      "energy_quartile": 4,
+      "energy_floor": 0.843,
+      "energy_ceiling": 1.0,
+      "track_count": 6667,
+      "avg_popularity": 34.9
+    }
+  ],
+  "duration_by_decade": [
+    {
+      "decade": 1980,
+      "track_count": 795,
+      "avg_duration_min": 4.49,
+      "avg_tempo": 121.2,
+      "avg_popularity": 43.0
+    },
+    {
+      "decade": 1990,
+      "track_count": 1680,
+      "avg_duration_min": 4.42,
+      "avg_tempo": 115.5,
+      "avg_popularity": 38.6
+    },
+    {
+      "decade": 2000,
+      "track_count": 3321,
+      "avg_duration_min": 4.12,
+      "avg_tempo": 119.1,
+      "avg_popularity": 32.2
+    },
+    {
+      "decade": 2010,
+      "track_count": 19624,
+      "avg_duration_min": 3.6,
+      "avg_tempo": 121.7,
+      "avg_popularity": 40.5
+    },
+    {
+      "decade": 2020,
+      "track_count": 626,
+      "avg_duration_min": 3.24,
+      "avg_tempo": 122.0,
+      "avg_popularity": 42.8
+    }
+  ],
+  "subgenre_overperformance": [
+    {
+      "playlist_genre": "rock",
+      "playlist_subgenre": "permanent wave",
+      "track_count": 813,
+      "subgenre_avg_pop": 51.8,
+      "pop_vs_genre_avg": 12.3
+    },
+    {
+      "playlist_genre": "rap",
+      "playlist_subgenre": "hip hop",
+      "track_count": 1287,
+      "subgenre_avg_pop": 53.3,
+      "pop_vs_genre_avg": 11.0
+    },
+    {
+      "playlist_genre": "r&b",
+      "playlist_subgenre": "urban contemporary",
+      "track_count": 1124,
+      "subgenre_avg_pop": 46.3,
+      "pop_vs_genre_avg": 9.9
+    },
+    {
+      "playlist_genre": "pop",
+      "playlist_subgenre": "post-teen pop",
+      "track_count": 974,
+      "subgenre_avg_pop": 55.8,
+      "pop_vs_genre_avg": 9.6
+    },
+    {
+      "playlist_genre": "r&b",
+      "playlist_subgenre": "hip pop",
+      "track_count": 780,
+      "subgenre_avg_pop": 45.0,
+      "pop_vs_genre_avg": 8.6
+    },
+    {
+      "playlist_genre": "rap",
+      "playlist_subgenre": "trap",
+      "track_count": 1206,
+      "subgenre_avg_pop": 48.7,
+      "pop_vs_genre_avg": 6.5
+    },
+    {
+      "playlist_genre": "latin",
+      "playlist_subgenre": "latin pop",
+      "track_count": 1028,
+      "subgenre_avg_pop": 48.0,
+      "pop_vs_genre_avg": 6.1
+    },
+    {
+      "playlist_genre": "edm",
+      "playlist_subgenre": "pop edm",
+      "track_count": 963,
+      "subgenre_avg_pop": 36.8,
+      "pop_vs_genre_avg": 6.0
+    },
+    {
+      "playlist_genre": "pop",
+      "playlist_subgenre": "dance pop",
+      "track_count": 1265,
+      "subgenre_avg_pop": 52.2,
+      "pop_vs_genre_avg": 6.0
+    },
+    {
+      "playlist_genre": "latin",
+      "playlist_subgenre": "reggaeton",
+      "track_count": 666,
+      "subgenre_avg_pop": 46.2,
+      "pop_vs_genre_avg": 4.3
+    },
+    {
+      "playlist_genre": "edm",
+      "playlist_subgenre": "electro house",
+      "track_count": 1407,
+      "subgenre_avg_pop": 34.1,
+      "pop_vs_genre_avg": 3.3
+    },
+    {
+      "playlist_genre": "latin",
+      "playlist_subgenre": "tropical",
+      "track_count": 1144,
+      "subgenre_avg_pop": 41.9,
+      "pop_vs_genre_avg": 0.0
+    },
+    {
+      "playlist_genre": "edm",
+      "playlist_subgenre": "big room",
+      "track_count": 1028,
+      "subgenre_avg_pop": 29.2,
+      "pop_vs_genre_avg": -1.6
+    },
+    {
+      "playlist_genre": "rock",
+      "playlist_subgenre": "classic rock",
+      "track_count": 872,
+      "subgenre_avg_pop": 37.3,
+      "pop_vs_genre_avg": -2.1
+    },
+    {
+      "playlist_genre": "rock",
+      "playlist_subgenre": "album rock",
+      "track_count": 892,
+      "subgenre_avg_pop": 36.5,
+      "pop_vs_genre_avg": -2.9
+    }
+  ],
+  "top_artists": [
+    {
+      "track_artist": "DaBaby",
+      "track_count": 6,
+      "avg_popularity": 83.7,
+      "best_track_popularity": 93
+    },
+    {
+      "track_artist": "Roddy Ricch",
+      "track_count": 7,
+      "avg_popularity": 83.4,
+      "best_track_popularity": 98
+    },
+    {
+      "track_artist": "Harry Styles",
+      "track_count": 9,
+      "avg_popularity": 81.8,
+      "best_track_popularity": 91
+    },
+    {
+      "track_artist": "YNW Melly",
+      "track_count": 7,
+      "avg_popularity": 81.6,
+      "best_track_popularity": 90
+    },
+    {
+      "track_artist": "Billie Eilish",
+      "track_count": 26,
+      "avg_popularity": 77.0,
+      "best_track_popularity": 97
+    },
+    {
+      "track_artist": "Lewis Capaldi",
+      "track_count": 9,
+      "avg_popularity": 76.9,
+      "best_track_popularity": 94
+    },
+    {
+      "track_artist": "Alec Benjamin",
+      "track_count": 6,
+      "avg_popularity": 76.8,
+      "best_track_popularity": 86
+    },
+    {
+      "track_artist": "Dimelo Flow",
+      "track_count": 5,
+      "avg_popularity": 76.8,
+      "best_track_popularity": 90
+    },
+    {
+      "track_artist": "Rich Music LTD",
+      "track_count": 6,
+      "avg_popularity": 76.5,
+      "best_track_popularity": 88
+    },
+    {
+      "track_artist": "Twenty One Pilots",
+      "track_count": 8,
+      "avg_popularity": 76.1,
+      "best_track_popularity": 83
+    },
+    {
+      "track_artist": "TINI",
+      "track_count": 5,
+      "avg_popularity": 76.0,
+      "best_track_popularity": 82
+    },
+    {
+      "track_artist": "Doja Cat",
+      "track_count": 8,
+      "avg_popularity": 74.8,
+      "best_track_popularity": 88
+    },
+    {
+      "track_artist": "Tones and I",
+      "track_count": 10,
+      "avg_popularity": 74.6,
+      "best_track_popularity": 100
+    },
+    {
+      "track_artist": "Green Day",
+      "track_count": 9,
+      "avg_popularity": 73.4,
+      "best_track_popularity": 79
+    },
+    {
+      "track_artist": "Gusttavo Lima",
+      "track_count": 6,
+      "avg_popularity": 73.2,
+      "best_track_popularity": 84
+    },
+    {
+      "track_artist": "iann dior",
+      "track_count": 5,
+      "avg_popularity": 73.2,
+      "best_track_popularity": 80
+    },
+    {
+      "track_artist": "tha Supreme",
+      "track_count": 6,
+      "avg_popularity": 73.0,
+      "best_track_popularity": 79
+    },
+    {
+      "track_artist": "Lil Peep",
+      "track_count": 7,
+      "avg_popularity": 72.9,
+      "best_track_popularity": 83
+    },
+    {
+      "track_artist": "Piso 21",
+      "track_count": 9,
+      "avg_popularity": 72.8,
+      "best_track_popularity": 86
+    },
+    {
+      "track_artist": "Cardi B",
+      "track_count": 8,
+      "avg_popularity": 72.6,
+      "best_track_popularity": 84
+    }
+  ],
+  "hit_sweet_spot": [
+    {
+      "popularity_tier": "Very High (75-100)",
+      "track_count": 1312,
+      "avg_danceability": 0.679,
+      "avg_energy": 0.656,
+      "avg_valence": 0.517,
+      "avg_loudness": -6.13,
+      "avg_speechiness": 0.115,
+      "avg_acousticness": 0.211,
+      "avg_tempo": 120.8,
+      "avg_duration_min": 3.57
+    },
+    {
+      "popularity_tier": "High (50-74)",
+      "track_count": 9036,
+      "avg_danceability": 0.659,
+      "avg_energy": 0.682,
+      "avg_valence": 0.514,
+      "avg_loudness": -6.65,
+      "avg_speechiness": 0.109,
+      "avg_acousticness": 0.196,
+      "avg_tempo": 121.3,
+      "avg_duration_min": 3.65
+    },
+    {
+      "popularity_tier": "Medium (25-49)",
+      "track_count": 9070,
+      "avg_danceability": 0.656,
+      "avg_energy": 0.7,
+      "avg_valence": 0.497,
+      "avg_loudness": -6.88,
+      "avg_speechiness": 0.109,
+      "avg_acousticness": 0.18,
+      "avg_tempo": 120.8,
+      "avg_duration_min": 3.7
+    },
+    {
+      "popularity_tier": "Low (0-24)",
+      "track_count": 7253,
+      "avg_danceability": 0.647,
+      "avg_energy": 0.724,
+      "avg_valence": 0.5,
+      "avg_loudness": -6.79,
+      "avg_speechiness": 0.107,
+      "avg_acousticness": 0.147,
+      "avg_tempo": 121.0,
+      "avg_duration_min": 3.96
+    }
+  ]
+}
