@@ -406,5 +406,61 @@
       "avg_tempo": 121.0,
       "avg_duration_min": 3.96
     }
+  ],
+  "genre_table": [
+    {
+      "playlist_genre": "pop",
+      "track_count": 4934,
+      "avg_popularity": 46.2,
+      "avg_energy": 0.698,
+      "avg_danceability": 0.639,
+      "avg_valence": 0.499,
+      "avg_duration_min": 3.62
+    },
+    {
+      "playlist_genre": "rap",
+      "track_count": 5139,
+      "avg_popularity": 42.2,
+      "avg_energy": 0.65,
+      "avg_danceability": 0.715,
+      "avg_valence": 0.5,
+      "avg_duration_min": 3.52
+    },
+    {
+      "playlist_genre": "latin",
+      "track_count": 3956,
+      "avg_popularity": 41.9,
+      "avg_energy": 0.71,
+      "avg_danceability": 0.711,
+      "avg_valence": 0.604,
+      "avg_duration_min": 3.6
+    },
+    {
+      "playlist_genre": "rock",
+      "track_count": 3633,
+      "avg_popularity": 39.5,
+      "avg_energy": 0.739,
+      "avg_danceability": 0.518,
+      "avg_valence": 0.526,
+      "avg_duration_min": 4.12
+    },
+    {
+      "playlist_genre": "r&b",
+      "track_count": 4199,
+      "avg_popularity": 36.3,
+      "avg_energy": 0.586,
+      "avg_danceability": 0.667,
+      "avg_valence": 0.53,
+      "avg_duration_min": 3.98
+    },
+    {
+      "playlist_genre": "edm",
+      "track_count": 4810,
+      "avg_popularity": 30.8,
+      "avg_energy": 0.81,
+      "avg_danceability": 0.657,
+      "avg_valence": 0.395,
+      "avg_duration_min": 3.75
+    }
   ]
 }
