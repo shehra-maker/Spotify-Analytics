@@ -3,267 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What Actually Makes a Song Popular? — Spotify Analytics</title>
+<title>Spotify Popularity Analysis Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg: #0A0E14;
-    --bg-panel: #10151D;
-    --line: #232B38;
-    --ink: #EAF0F5;
-    --ink-dim: #8B97A8;
     --green: #1DB954;
-    --pink: #FE2C55;
-    --amber: #FFC24B;
-    --radius: 14px;
+    --green-dark: #14833B;
+    --ink: #1A1815;
+    --ink-dim: #6E6A63;
+    --bg: #FAF9F6;
+    --card: #FFFFFF;
+    --line: #E4E1D9;
+    --radius: 10px;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
   body{
-    background:
-      radial-gradient(1200px 600px at 85% -10%, rgba(29,185,84,0.10), transparent 60%),
-      radial-gradient(1000px 500px at -10% 20%, rgba(254,44,85,0.06), transparent 55%),
-      var(--bg);
+    background:var(--bg);
     color:var(--ink);
-    font-family:'Space Grotesk', sans-serif;
-    -webkit-font-smoothing:antialiased;
+    font-family:'Work Sans', -apple-system, sans-serif;
+    display:flex;
   }
-  .mono{font-family:'JetBrains Mono', monospace;}
 
-  .swipe-nav{
-    position:fixed; right:22px; top:50%; transform:translateY(-50%);
-    display:flex; flex-direction:column; gap:14px; z-index:50;
+  .sidebar{
+    width:56px; min-height:100vh; background:var(--green);
+    display:flex; flex-direction:column; align-items:center; gap:28px;
+    padding:24px 0; flex-shrink:0;
   }
-  .swipe-nav a{
-    width:9px; height:9px; border-radius:50%;
-    background:var(--line); display:block; position:relative;
-    transition:background .25s, transform .25s;
+  .sidebar .logo{
+    width:32px; height:32px; border-radius:50%; background:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800; color:var(--green); font-size:17px;
   }
-  .swipe-nav a::after{
-    content:attr(data-label);
-    position:absolute; right:20px; top:50%; transform:translateY(-50%);
-    font-size:11px; color:var(--ink-dim); white-space:nowrap;
-    opacity:0; transition:opacity .2s; pointer-events:none;
-    font-family:'JetBrains Mono', monospace; letter-spacing:.02em;
-  }
-  .swipe-nav a:hover::after{opacity:1;}
-  .swipe-nav a.active{background:var(--green); transform:scale(1.3);}
-  @media (max-width:900px){ .swipe-nav{display:none;} }
+  .sidebar i{ color:rgba(255,255,255,0.55); font-size:19px; }
+  .sidebar i.active{ color:#fff; }
 
-  section{ padding:88px 8vw; max-width:1180px; margin:0 auto; border-bottom:1px solid var(--line); }
-  section:last-of-type{border-bottom:none;}
+  .main{ flex:1; padding:22px 28px 40px; max-width:1240px; }
 
-  .hero{ min-height:90vh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--line);}
-  .eyebrow{
-    font-family:'JetBrains Mono', monospace; font-size:12.5px; letter-spacing:.14em;
-    color:var(--green); text-transform:uppercase; margin-bottom:22px;
-    display:flex; align-items:center; gap:10px;
-  }
-  .eyebrow::before{content:''; width:26px; height:1px; background:var(--green); display:inline-block;}
+  .top-row{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:22px; flex-wrap:wrap; gap:14px;}
   h1{
-    font-family:'Archivo Black', sans-serif; font-weight:400;
-    font-size:clamp(36px, 5.6vw, 72px); line-height:1.02; letter-spacing:-0.01em;
-    max-width:920px;
+    font-family:'Big Shoulders Display', sans-serif; font-weight:800; font-size:46px;
+    letter-spacing:-0.01em; line-height:1; text-transform:uppercase; color:var(--ink);
   }
-  h1 .accent{color:var(--green);}
-  h1 .accent2{color:var(--pink);}
-  .hero-sub{ margin-top:26px; max-width:640px; color:var(--ink-dim); font-size:17px; line-height:1.65;}
-  .kpi-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:56px;
-    background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
-  .kpi{ background:var(--bg-panel); padding:26px 24px; }
-  .kpi .num{ font-family:'JetBrains Mono', monospace; font-size:30px; font-weight:600; color:var(--ink); }
-  .kpi .num span{color:var(--green);}
-  .kpi .lbl{ margin-top:8px; font-size:12.5px; color:var(--ink-dim); letter-spacing:.03em; }
-  @media (max-width:800px){ .kpi-row{grid-template-columns:repeat(2,1fr);} }
+  h1 .u{ color:var(--green-dark); }
+  .top-row p{ font-size:13px; color:var(--ink-dim); margin-top:8px;}
 
-  .sec-head{ display:flex; align-items:baseline; gap:16px; margin-bottom:8px; }
-  .sec-num{ font-family:'JetBrains Mono', monospace; color:var(--pink); font-size:14px; }
-  h2{ font-family:'Archivo Black', sans-serif; font-weight:400; font-size:clamp(24px,3.4vw,36px); letter-spacing:-0.01em;}
-  .sec-question{ color:var(--ink-dim); font-size:15px; margin-top:10px; margin-bottom:40px; max-width:680px; line-height:1.6;}
-
-  .finding-banner{
-    background:linear-gradient(90deg, rgba(29,185,84,0.10), rgba(29,185,84,0.01));
-    border-left:3px solid var(--green); border-radius:6px;
-    padding:16px 20px; margin:28px 0; font-size:14.5px; color:var(--ink); line-height:1.6;
+  .filters{ display:flex; gap:10px; }
+  .filters select{
+    font-family:'Work Sans',sans-serif; font-size:12.5px; padding:7px 10px; border-radius:8px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink);
   }
-  .finding-banner b{color:var(--green);}
-  .finding-banner.pink{ border-left-color:var(--pink); background:linear-gradient(90deg, rgba(254,44,85,0.10), rgba(254,44,85,0.01)); }
-  .finding-banner.pink b{color:var(--pink);}
 
-  .chart-card{ background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius); padding:24px; margin-top:8px;}
-  .two-col{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:22px; align-items:start;}
-  @media (max-width:850px){ .two-col{grid-template-columns:1fr;} }
-  canvas{ max-height:360px; }
+  .kpi-row{ display:grid; grid-template-columns:repeat(4,1fr) 1.3fr; gap:14px; margin-bottom:16px;}
+  @media (max-width:1000px){ .kpi-row{grid-template-columns:repeat(2,1fr);} }
+  .kpi{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px;}
+  .kpi .lbl{ font-size:11px; color:var(--ink-dim); font-weight:500; text-transform:uppercase; letter-spacing:.04em;}
+  .kpi .val{ font-family:'Big Shoulders Display', sans-serif; font-weight:800; font-size:30px; margin-top:4px; line-height:1;}
+  .kpi.highlight{
+    background:var(--green); color:#fff; display:flex; flex-direction:column; justify-content:center;
+    align-items:center; text-align:center; transform:rotate(-1.2deg);
+    box-shadow:0 2px 0 rgba(0,0,0,0.06);
+  }
+  .kpi.highlight .lbl{ color:rgba(255,255,255,0.85);}
+  .kpi.highlight .val{ font-size:20px; margin-top:8px; text-transform:none;}
 
-  table{ width:100%; border-collapse:collapse; font-size:13.5px; margin-top:8px;}
-  th{ text-align:left; font-family:'JetBrains Mono',monospace; font-weight:500; font-size:11px;
-    letter-spacing:.05em; color:var(--ink-dim); text-transform:uppercase; padding:10px 12px; border-bottom:1px solid var(--line);}
-  td{ padding:10px 12px; border-bottom:1px solid var(--line); color:var(--ink); }
-  tr:hover td{ background:rgba(29,185,84,0.04); }
+  .grid-2{ display:grid; grid-template-columns:1.4fr 1fr; gap:14px; margin-bottom:14px;}
+  @media (max-width:900px){ .grid-2{grid-template-columns:1fr;} }
 
-  footer{ padding:60px 8vw 100px; max-width:1180px; margin:0 auto; color:var(--ink-dim); font-size:13px; }
-  footer a{ color:var(--green); text-decoration:none; }
-  footer a:hover{ text-decoration:underline; }
-  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:18px;}
-  .tag{ font-family:'JetBrains Mono',monospace; font-size:11px; border:1px solid var(--line); color:var(--ink-dim);
-    padding:5px 11px; border-radius:20px;}
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px;}
+  .card h3{ font-family:'Big Shoulders Display', sans-serif; font-weight:600; font-size:16px; margin-bottom:14px; text-transform:uppercase; letter-spacing:.02em; color:var(--ink-dim);}
+  .card canvas{ max-height:230px;}
+
+  table{ width:100%; border-collapse:collapse; font-size:12.5px;}
+  th{ text-align:left; font-weight:600; color:var(--ink-dim); padding:8px 6px; border-bottom:1px solid var(--line); font-size:11px; text-transform:uppercase; letter-spacing:.02em;}
+  td{ padding:8px 6px; border-bottom:1px solid #F0EEE8;}
+  tr:last-child td{ border-bottom:none;}
+
+  footer{ margin-top:18px; font-size:11.5px; color:var(--ink-dim); text-align:center;}
+  footer a{ color:var(--green-dark); text-decoration:none; font-weight:600;}
 </style>
 </head>
 <body>
 
-<nav class="swipe-nav" id="swipeNav">
-  <a href="#hero" data-label="Overview" class="active"></a>
-  <a href="#genre" data-label="Genre"></a>
-  <a href="#energy" data-label="Energy"></a>
-  <a href="#correlations" data-label="Correlations"></a>
-  <a href="#decade" data-label="Song Length"></a>
-  <a href="#recs" data-label="Recommendations"></a>
-</nav>
+<div class="sidebar">
+  <div class="logo">S</div>
+</div>
 
-<section class="hero" id="hero">
-  <div class="eyebrow">Product Analytics · 26,671 Real Spotify Tracks</div>
-  <h1>What actually makes<br>a song <span class="accent">popular</span> — and why<br><span class="accent2">energy</span> is a trap</h1>
-  <p class="hero-sub">A full-funnel analysis of real Spotify data (1957–2020) — Python for cleaning,
-  SQL for aggregation, Excel for live-formula verification, and this dashboard for the story.
-  The headline: high-energy tracks perform worse on average, not better.</p>
-
-  <div class="kpi-row">
-    <div class="kpi"><div class="num"><span>26,671</span></div><div class="lbl">Real tracks analyzed</div></div>
-    <div class="kpi"><div class="num"><span>-0.105</span></div><div class="lbl">Energy ↔ popularity correlation</div></div>
-    <div class="kpi"><div class="num"><span>-0.139</span></div><div class="lbl">Strongest predictor: duration</div></div>
-    <div class="kpi"><div class="num"><span>4.49 → 3.24</span></div><div class="lbl">Avg. minutes, 1980s → 2020s</div></div>
-  </div>
-</section>
-
-<section id="genre">
-  <div class="sec-head"><span class="sec-num">01</span><h2>Popularity by Genre</h2></div>
-  <p class="sec-question">Which genres perform best, and what does that reveal about the platform?</p>
-  <div class="two-col">
-    <div class="chart-card"><canvas id="genreChart"></canvas></div>
-    <div class="chart-card">
-      <table id="genreTable"><thead><tr><th>Genre</th><th>Avg Pop.</th><th>Avg Energy</th></tr></thead><tbody></tbody></table>
+<div class="main">
+  <div class="top-row">
+    <div>
+      <h1>Spotify <span class="u">popularity</span> analysis</h1>
+      <p>26,671 real tracks, 1957 to 2020. Does energy actually predict popularity?</p>
+    </div>
+    <div class="filters">
+      <select disabled><option>Genre: All</option></select>
+      <select disabled><option>Decade: All</option></select>
     </div>
   </div>
-  <div class="finding-banner"><b>Finding —</b> Pop leads (46.2 avg popularity) with only moderate
-  energy (0.698). EDM trails every genre (30.8) despite having the highest average energy (0.81) of
-  the six — the first hint that "more energetic" doesn't mean "more popular."</div>
-</section>
 
-<section id="energy">
-  <div class="sec-head"><span class="sec-num">02</span><h2>Energy vs. Popularity</h2></div>
-  <p class="sec-question">Does higher energy actually predict higher popularity? A common assumption, tested directly.</p>
-  <div class="chart-card"><canvas id="energyChart"></canvas></div>
-  <div class="finding-banner pink"><b>Finding —</b> The trend line slopes downward. Splitting tracks
-  into energy quartiles: the lowest-energy quartile averages 42.1 popularity; the highest-energy
-  quartile averages 34.9 — a 7-point gap in the opposite direction from what intuition suggests.
-  Correlation: -0.105.</div>
-</section>
-
-<section id="correlations">
-  <div class="sec-head"><span class="sec-num">03</span><h2>What Actually Correlates with Popularity</h2></div>
-  <p class="sec-question">Every audio feature, ranked. Cross-validated identically in SQL and Excel (CORREL formulas).</p>
-  <div class="chart-card"><canvas id="corrChart"></canvas></div>
-  <div class="finding-banner"><b>Finding —</b> Duration is the strongest single predictor (-0.139,
-  shorter = more popular) — stronger than energy. No feature exceeds |0.14|, meaning no single
-  acoustic property is a strong predictor on its own; genre/subgenre context carries more weight
-  than any individual feature.</div>
-</section>
-
-<section id="decade">
-  <div class="sec-head"><span class="sec-num">04</span><h2>Songs Are Getting Shorter</h2></div>
-  <p class="sec-question">A widely discussed industry trend, independently verified in this data.</p>
-  <div class="chart-card"><canvas id="decadeChart"></canvas></div>
-  <div class="finding-banner"><b>Finding —</b> Average duration dropped from 4.49 min (1980s) to
-  3.24 min (2020s) — over a full minute shorter. Generally attributed to streaming economics
-  (shorter songs mean more completions per listening hour) and playlist/algorithm optimization.
-  The 2020s sample is smaller (626 tracks) — directional, not definitive.</div>
-</section>
-
-<section id="recs">
-  <div class="sec-head"><span class="sec-num">05</span><h2>Recommendations</h2></div>
-  <p class="sec-question">Full write-up: <a href="../INSIGHTS.md" style="color:var(--green)">INSIGHTS.md</a></p>
-  <div class="chart-card">
-    <ol style="padding-left:20px; line-height:2.1; font-size:14.5px; color:var(--ink);">
-      <li><b style="color:var(--green)">Don't use "high energy" as a proxy for "engaging"</b> in a recommendation system — the relationship is weak and negative, not positive.</li>
-      <li><b style="color:var(--green)">Duration is the strongest lever available</b> — shorter tracks trend more popular, consistent with the real industry-wide shortening trend.</li>
-      <li><b style="color:var(--green)">Treat individual audio features as weak signals</b> — no feature exceeds a 0.14 correlation; genre/subgenre context matters more than any single acoustic property.</li>
-      <li><b style="color:var(--green)">Correlation isn't causation</b> — EDM's low popularity and high energy could run through genre rather than energy directly; a within-genre check would be the rigorous next step.</li>
-    </ol>
+  <div class="kpi-row">
+    <div class="kpi"><div class="lbl">Tracks analyzed</div><div class="val">26,671</div></div>
+    <div class="kpi"><div class="lbl">Avg. popularity</div><div class="val">39.5</div></div>
+    <div class="kpi"><div class="lbl">Energy ↔ popularity</div><div class="val">-0.105</div></div>
+    <div class="kpi"><div class="lbl">Strongest predictor</div><div class="val">Duration</div></div>
+    <div class="kpi highlight"><div class="lbl">Top genre</div><div class="val">Pop, 46.2 avg.</div></div>
   </div>
-</section>
 
-<footer>
-  <div>Built for a Product Data Analyst internship application · Python + SQL + Excel + Tableau</div>
-  <div class="tag-row">
-    <span class="tag">Python (pandas)</span><span class="tag">SQLite</span><span class="tag">Excel (live formulas)</span>
-    <span class="tag">Tableau</span><span class="tag">Chart.js</span><span class="tag">Spotify Web API</span>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Popularity & energy by genre</h3>
+      <canvas id="genreChart"></canvas>
+    </div>
+    <div class="card">
+      <h3>Feature correlation with popularity</h3>
+      <canvas id="corrChart"></canvas>
+    </div>
   </div>
-</footer>
+
+  <div class="card" style="margin-bottom:14px;">
+    <h3>Table summary by genre</h3>
+    <table id="genreTable">
+      <thead><tr>
+        <th>Genre</th><th>Tracks</th><th>Avg popularity</th><th>Avg energy</th>
+        <th>Avg danceability</th><th>Avg valence</th><th>Avg duration</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Avg. duration by decade</h3>
+      <canvas id="decadeChart"></canvas>
+    </div>
+    <div class="card">
+      <h3>Where the correlation actually holds</h3>
+      <p style="font-size:12.5px; color:var(--ink-dim); line-height:1.6;">
+        Duration is the strongest single predictor of popularity in this dataset (-0.139),
+        edging out energy (-0.105). Neither crosses 0.14, so genre and subgenre context
+        carry more weight than any one audio feature on its own.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    Full SQL, Python, Excel, and Tableau work in the repo. <a href="https://github.com/shehra-maker/Spotify-Analytics">View on GitHub</a>
+  </footer>
+</div>
 
 <script>
 fetch('data.json').then(r => r.json()).then(d => {
   const genres = d.genre_features;
+  const decades = d.duration_by_decade;
+
   new Chart(document.getElementById('genreChart'), {
     type: 'bar',
     data: {
       labels: genres.map(g => g.playlist_genre),
-      datasets: [{ label: 'Avg Popularity', data: genres.map(g => g.avg_popularity),
-        backgroundColor: '#1DB954', borderRadius: 4 }]
+      datasets: [
+        { label: 'Avg popularity', data: genres.map(g => g.avg_popularity), backgroundColor: '#1DB954', borderRadius: 4 },
+        { label: 'Avg energy (×100)', data: genres.map(g => Math.round(g.avg_energy * 100)), backgroundColor: '#C7C7C7', borderRadius: 4 }
+      ]
     },
-    options: { indexAxis: 'y', plugins: { legend: { display:false } },
-      scales: { x: { ticks:{color:'#8B97A8'}, grid:{color:'#232B38'} }, y: { ticks:{color:'#EAF0F5'}, grid:{display:false} } } }
-  });
-  const gBody = document.querySelector('#genreTable tbody');
-  genres.forEach(g => {
-    gBody.innerHTML += `<tr><td>${g.playlist_genre}</td><td class="mono">${g.avg_popularity}</td><td class="mono">${g.avg_energy}</td></tr>`;
-  });
-
-  new Chart(document.getElementById('energyChart'), {
-    type: 'scatter',
-    data: { datasets: [{
-      label: 'Genres (avg energy vs avg popularity)',
-      data: genres.map(g => ({x: g.avg_energy, y: g.avg_popularity})),
-      backgroundColor: '#FE2C55', pointRadius: 8
-    }]},
-    options: { plugins: { legend: { display:false } },
-      scales: {
-        x: { title:{display:true, text:'Avg Energy', color:'#8B97A8'}, ticks:{color:'#8B97A8'}, grid:{color:'#232B38'} },
-        y: { title:{display:true, text:'Avg Popularity', color:'#8B97A8'}, ticks:{color:'#8B97A8'}, grid:{color:'#232B38'} }
-      } }
+    options: {
+      plugins: { legend: { position:'bottom', labels:{ boxWidth:10, font:{size:11} } } },
+      scales: { x: { grid:{display:false} }, y: { grid:{color:'#F0F1F3'} } }
+    }
   });
 
   const feats = [
-    ["duration_min",-0.139],["instrumentalness",-0.131],["energy",-0.105],["liveness",-0.053],
-    ["danceability",0.050],["loudness",0.038],["valence",0.030],["speechiness",0.010],["tempo",0.005],["acousticness",0.093]
-  ].sort((a,b)=>a[1]-b[1]);
+    ["duration", -13.9], ["instrumental.", -13.1], ["energy", -10.5], ["liveness", -5.3],
+    ["danceability", 5.0], ["loudness", 3.8], ["valence", 3.0], ["speechiness", 1.0], ["tempo", 0.5], ["acousticness", 9.3]
+  ].sort((a,b) => a[1] - b[1]);
   new Chart(document.getElementById('corrChart'), {
     type: 'bar',
-    data: { labels: feats.map(f=>f[0]), datasets:[{ label:'Correlation with Popularity', data: feats.map(f=>f[1]),
-      backgroundColor: feats.map(f=> f[1] < 0 ? '#FE2C55' : '#1DB954'), borderRadius: 4 }] },
-    options: { indexAxis: 'y', plugins: { legend: { display:false } },
-      scales: { x: { ticks:{color:'#8B97A8'}, grid:{color:'#232B38'} }, y: { ticks:{color:'#EAF0F5'}, grid:{display:false} } } }
+    data: { labels: feats.map(f=>f[0]), datasets: [{ label:'Correlation ×100', data: feats.map(f=>f[1]),
+      backgroundColor: '#1DB954', borderRadius: 4 }] },
+    options: { indexAxis:'y', plugins:{ legend:{display:false} },
+      scales:{ x:{ grid:{color:'#F0F1F3'} }, y:{ grid:{display:false} } } }
   });
 
-  const decades = d.duration_by_decade;
+  const gBody = document.querySelector('#genreTable tbody');
+  d.genre_table.forEach(g => {
+    gBody.innerHTML += `<tr>
+      <td style="text-transform:capitalize">${g.playlist_genre}</td>
+      <td>${g.track_count.toLocaleString()}</td>
+      <td>${g.avg_popularity}</td>
+      <td>${g.avg_energy}</td>
+      <td>${g.avg_danceability}</td>
+      <td>${g.avg_valence}</td>
+      <td>${g.avg_duration_min} min</td>
+    </tr>`;
+  });
+
   new Chart(document.getElementById('decadeChart'), {
     type: 'line',
-    data: { labels: decades.map(x=>x.decade+'s'), datasets:[{ label:'Avg Duration (min)',
-      data: decades.map(x=>x.avg_duration_min), borderColor:'#1DB954', backgroundColor:'rgba(29,185,84,0.15)',
-      fill:true, tension:0.3, pointRadius:5 }] },
-    options: { plugins: { legend: { display:false } },
-      scales: { x: { ticks:{color:'#8B97A8'}, grid:{color:'#232B38'} }, y: { ticks:{color:'#8B97A8'}, grid:{color:'#232B38'} } } }
+    data: { labels: decades.map(x=>x.decade+'s'), datasets:[{ label:'Avg duration (min)',
+      data: decades.map(x=>x.avg_duration_min), borderColor:'#1DB954', backgroundColor:'rgba(29,185,84,0.12)',
+      fill:true, tension:0.3, pointRadius:4, pointBackgroundColor:'#1DB954' }] },
+    options: { plugins:{ legend:{display:false} },
+      scales:{ x:{ grid:{display:false} }, y:{ grid:{color:'#F0F1F3'} } } }
   });
 });
-
-const navLinks = document.querySelectorAll('.swipe-nav a');
-const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
-window.addEventListener('scroll', () => {
-  let idx = 0;
-  sections.forEach((s,i) => { if (s && window.scrollY >= s.offsetTop - window.innerHeight/2) idx = i; });
-  navLinks.forEach((a,i) => a.classList.toggle('active', i === idx));
-}, { passive:true });
 </script>
 </body>
 </html>
